@@ -3,8 +3,10 @@
     - name: Check if CWA Agent is installed
       stat: path=/opt/aws/amazon-cloudwatch-agent/bin
       register: cwa_bin_dir
+
     - include_tasks: install.yml
       when: not cwa_bin_dir.stat.exists
+    when: cwa_agent_install
 
   - block:
     - name: Gather facts
@@ -19,5 +21,6 @@
         mode: 0600
       notify: restart cwa agent
 
-  - name: start and enable cwa-agent service
-    service: name=amazon-cloudwatch-agent state=started enabled=yes
+    - name: start and enable cwa-agent service
+      service: name=amazon-cloudwatch-agent state=started enabled=yes
+    when: cwa_agent_manage
