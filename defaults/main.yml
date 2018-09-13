@@ -1,0 +1,28 @@
+---
+cwa_path: "/opt/aws/amazon-cloudwatch-agent"
+cwa_pkg: "amazon-cloudwatch-agent"
+cwa_metrics:
+  agent:
+    metrics_collection_interval: 60
+    logfile: "/opt/aws/amazon-clouwatch-agent.log"
+  metrics:
+    metrics_collected:
+      disk:
+        resources:
+          - "/"
+          - "/tmp"
+        measurement:
+          - "used_percent"
+        append_dimensions:
+          InstanceId: "{{ansible_ec2_instance_id}}"
+      mem:
+        measurement:
+          - "used_percent"
+        append_dimensions:
+          InstanceId: "{{ansible_ec2_instance_id}}"
+      netstat:
+        measurement:
+          - "tcp_established"
+          - "tcp_time_wait"
+        append_dimensions:
+          InstanceId: "{{ansible_ec2_instance_id}}"

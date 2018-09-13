@@ -1,0 +1,23 @@
+---
+  - block:
+    - name: Check if CWA Agent is installed
+      stat: path=/opt/aws/amazon-cloudwatch-agent/bin
+      register: cwa_bin_dir
+    - include_tasks: install.yml
+      when: not cwa_bin_dir.stat.exists
+
+  - block:
+    - name: Gather facts
+      ec2_metadata_facts:
+
+    - name: Configure AWS CloudWatch Agent
+      template:
+        src: amazon-cloudwatch-agent.j2
+        dest: /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+        owner: root
+        group: root
+        mode: 0600
+      notify: restart cwa agent
+
+  - name: start and enable cwa-agent service
+    service: name=amazon-cloudwatch-agent state=started enabled=yes

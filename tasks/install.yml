@@ -1,0 +1,6 @@
+---
+- block:
+  - name: Install pkg
+    package:
+      name: "{{cwa_pkg}}"
+      update_cache: yes
