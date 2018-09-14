@@ -9,9 +9,6 @@
     when: cwa_agent_install
 
   - block:
-    - name: Gather facts
-      ec2_metadata_facts:
-
     - name: Configure AWS CloudWatch Agent
       template:
         src: amazon-cloudwatch-agent.j2

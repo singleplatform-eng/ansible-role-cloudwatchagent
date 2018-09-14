@@ -13,7 +13,6 @@ Metrics to be collected, and the params of metrics collection (including collect
 
     Example:
 
-
     cwa_metrics:
       agent:
          metrics_collection_interval: 60
@@ -27,12 +26,13 @@ Metrics to be collected, and the params of metrics collection (including collect
             measurement:
              - "used_percent"
              append_dimensions:
-                InstanceId: "{{ ansible_ec2_instance_id }}"
+                InstanceId: "{{ ec2_id }}"
 
 Currently this role only supports metrics collection, in future it will also support logs collection as well.
 
 Example Playbook
 ----------------
+
     - hosts: all
       become: yes
       roles:

@@ -1,6 +1,37 @@
 ---
 - block:
+  - name: Install CWA Deps
+    package:
+      name: "cwa_deps"
+
+  - name: Make Install Dir
+    file:
+      name: "{{cwa_tmp}}"
+      owner: "{{cwa_user}}"
+      group: "{{cwa_group}}"
+      mode: 0755
+      state: directory
+
+  - name: Extract to Dir
+    unarchive:
+      src: "{{cwa_zip_url}}"
+      dest: "{{cwa_tmp}}"
+      remote_src: yes
+
+  - name: Install deb
+    apt:
+      deb: "{{cwa_tmp}}/amazon-cloudwatch-agent.deb"
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: Install rpm
+    yum:
+      rpm: "{{cwa_tmp}}/amazon-cloudwatch-agent.rpm"
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: cwm_install_from_zip
+
+- block:
   - name: Install pkg
     package:
       name: "{{cwa_pkg}}"
       update_cache: yes
+  when: not cwa_install_from_zip

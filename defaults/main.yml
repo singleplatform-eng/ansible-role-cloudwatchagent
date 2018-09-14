@@ -2,29 +2,17 @@
 cwa_agent_install: True
 cwa_agent_manage: True
 
+cwa_deps:
+  - 'unzip'
+
+cwa_install_from_zip: True
+cwa_tmp: "/tmp/AmazonCloudWatchAgent"
+cwa_user: root
+cwa_group: root
+cwa_zip_url: 'https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip' 
+
 cwa_path: "/opt/aws/amazon-cloudwatch-agent"
-cwa_pkg: "amazon-cloudwatch-agent"
 cwa_metrics:
   agent:
     metrics_collection_interval: 60
     logfile: "/var/log/amazon-cloudwatch-agent.log"
-  metrics:
-    metrics_collected:
-      disk:
-        resources:
-          - "/"
-        measurement:
-          - "used_percent"
-        append_dimensions:
-          InstanceId: "{{ansible_ec2_instance_id}}"
-      mem:
-        measurement:
-          - "used_percent"
-        append_dimensions:
-          InstanceId: "{{ansible_ec2_instance_id}}"
-      netstat:
-        measurement:
-          - "tcp_established"
-          - "tcp_time_wait"
-        append_dimensions:
-          InstanceId: "{{ansible_ec2_instance_id}}"
