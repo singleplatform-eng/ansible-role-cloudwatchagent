@@ -27,7 +27,7 @@
     yum:
       rpm: "{{cwa_tmp}}/amazon-cloudwatch-agent.rpm"
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-  when: cwm_install_from_zip
+  when: cwa_install_from_zip
 
 - block:
   - name: Install pkg
