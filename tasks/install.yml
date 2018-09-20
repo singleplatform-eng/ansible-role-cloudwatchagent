@@ -2,7 +2,7 @@
 - block:
   - name: Install CWA Deps
     package:
-      name: "cwa_deps"
+      name: "{{cwa_deps}}"
 
   - name: Make Install Dir
     file:
