@@ -22,7 +22,7 @@
       service: name=amazon-cloudwatch-agent state=started enabled=yes
       when: ansible_distribution_release == 'trusty'
 
-    - name: Start and enable awslogs systemd service
-      systemd: name=awslogs state=started enabled=yes daemon_reload=yes
+    - name: Start and enable cwa-agent systemd service
+      systemd: name=amazon-cloudwatch-agent state=started enabled=yes daemon_reload=yes
       when: ansible_distribution_release == 'xenial'
     when: cwa_agent_manage
