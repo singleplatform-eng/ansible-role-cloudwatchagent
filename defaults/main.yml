@@ -16,3 +16,11 @@ cwa_metrics:
   agent:
     metrics_collection_interval: 60
     logfile: "/var/log/amazon-cloudwatch-agent.log"
+  logs:
+    logs_collected:
+      files:
+        collect_list:
+          - filepath: "/var/log/amazon-cloudwatch-agent.log"
+            log_group_name: "amazon-cloudwatch-agent.log"
+            log_stream_name: "amazon-cloudwatch-agent.log"
+            timezone: "UTC"
