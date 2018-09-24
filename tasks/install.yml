@@ -3,6 +3,7 @@
   - name: Install CWA Deps
     package:
       name: "{{cwa_deps}}"
+      update_cache: yes
 
   - name: Make Install Dir
     file:
