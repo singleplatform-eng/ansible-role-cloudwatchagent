@@ -70,6 +70,13 @@ fi
 
 printf "\n"
 
+# Start Moto EC2 Server and Configure AWS profile to connect to Moto EC2
+docker exec --tty $container_id env TERM=xterm moto_server ec2 &
+docker exec --tty $container_id env TERM=xterm mkdir /root/.aws
+docker exec --tty $container_id env TERM=xterm echo "[AmazonCloudWatchAgent]" >> /root/.aws/config
+docker exec --tty $container_id env TERM=xterm echo "region='us-west-1'" >> /root/.aws/config
+docker exec --tty $container_id env TERM=xterm echo "endpoint_url='http://localhost:5000'" >> /root/.aws/config
+
 # Test Ansible syntax.
 printf ${green}"Checking Ansible playbook syntax."${neutral}
 docker exec --tty $container_id env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook --syntax-check
