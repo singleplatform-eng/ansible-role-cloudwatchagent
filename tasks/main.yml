@@ -18,6 +18,11 @@
         mode: 0600
       notify: restart cwa agent
 
+    - name: Verify AWS CloudWatch Agent Config for EC2
+      command: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+      become: yes
+      when: ec2_region is defined
+
     - name: start and enable cwa-agent service
       service: name=amazon-cloudwatch-agent state=started enabled=yes
       when: ansible_distribution_release == 'trusty'
