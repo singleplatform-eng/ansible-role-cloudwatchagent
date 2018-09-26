@@ -70,13 +70,6 @@ fi
 
 printf "\n"
 
-# Start Moto EC2 Server and Configure AWS profile to connect to Moto EC2
-docker exec --tty $container_id env TERM=xterm moto_server ec2 &
-docker exec --tty $container_id env TERM=xterm mkdir /root/.aws
-docker exec --tty $container_id env TERM=xterm echo "[AmazonCloudWatchAgent]" >> /root/.aws/config
-docker exec --tty $container_id env TERM=xterm echo "region='us-west-1'" >> /root/.aws/config
-docker exec --tty $container_id env TERM=xterm echo "endpoint_url='http://localhost:5000'" >> /root/.aws/config
-
 # Test Ansible syntax.
 printf ${green}"Checking Ansible playbook syntax."${neutral}
 docker exec --tty $container_id env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook --syntax-check
@@ -86,15 +79,6 @@ printf "\n"
 # Run Ansible playbook.
 printf ${green}"Running command: docker exec $container_id env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook"${neutral}
 docker exec $container_id env TERM=xterm env ANSIBLE_FORCE_COLOR=1 ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook
-
-# Run Ansible playbook again (idempotence test).
-printf ${green}"Running playbook again: idempotence test"${neutral}
-idempotence=$(mktemp)
-docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/$playbook | tee -a $idempotence
-tail $idempotence \
-  | grep -q 'changed=0.*failed=0' \
-  && (printf ${green}'Idempotence test: pass'${neutral}"\n") \
-  || (printf ${red}'Idempotence test: fail'${neutral}"\n" && exit 1)
 
 # Remove the Docker container (if configured).
 if [ "$cleanup" = true ]; then
