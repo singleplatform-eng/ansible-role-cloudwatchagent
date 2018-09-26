@@ -5,6 +5,7 @@ services: docker
 env:
   - distro: ubuntu1404
   - distro: ubuntu1604
+  - distro: centos7
 
 script:
   # Run tests.
