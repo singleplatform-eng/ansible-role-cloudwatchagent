@@ -29,5 +29,5 @@
 
     - name: Start and enable cwa-agent systemd service
       systemd: name=amazon-cloudwatch-agent state=started enabled=yes daemon_reload=yes
-      when: ansible_distribution_release == 'xenial'
+      when: ansible_distribution_release == 'xenial' or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     when: cwa_agent_manage
